@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор реквизитов</title>
+    <style>
+        body {
+            background-color: bisque;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #requisites {
+            margin-top: 20px;
+            display: none;
+            font-size: 18px;
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        #fullList {
+            margin-top: 20px;
+            display: none;
+            font-size: 18px;
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn" onclick="generateNumber()">Сгенерировать</button>
+    <div class="result" id="number"></div>
+    <button class="btn" onclick="toggleRequisites()">Открыть реквизит</button>
+    <button class="btn" onclick="toggleFullList()">Открыть весь список</button>
+    <div id="requisites"></div>
+    <div id="fullList"></div>
+
+    <script>
+        const requisites = {
+            "01": "герб",
+            "02": "эмблема",
+            "03": "товарный знак",
+            "04": "код формы документа",
+            "05": "наименование документа",
+            "06": "наименование структурного подразделения",
+            "07": "наименование должности лица",
+            "08": "справочные данные об организации",
+            "09": "наименование вида документа",
+            "10": "дата",
+            "11": "регистрационный номер",
+            "12": "ссылка на регистрационный номер и дату поступившего документа",
+            "13": "место составления",
+            "14": "гриф ограничения доступа",
+            "15": "адресат",
+            "16": "гриф утверждения документа",
+            "17": "заголовок к тексту",
+            "18": "текст",
+            "19": "отметка о приложении",
+            "20": "виза",
+            "21": "подпись",
+            "22": "отметка о подписи",
+            "23": "отметка об электронной подписи",
+            "24": "печать",
+            "25": "отметка об исполнителе",
+            "26": "отметка о заверении копии",
+            "27": "отметка о поступлении копии",
+            "28": "резолюция",
+            "29": "отметка о контроле",
+            "30": "отметка о направлении документа в дело"
+        };
+
+        let currentNumber = ''; // Хранение текущего сгенерированного номера
+
+        function generateNumber() {
+            currentNumber = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+            document.getElementById('number').innerText = currentNumber;
+            document.getElementById('requisites').innerText = ''; // Очистка предыдущих реквизитов
+            document.getElementById('requisites').style.display = 'none'; // Скрыть реквизиты
+        }
+
+        function toggleRequisites() {
+            const requisitesDiv = document.getElementById('requisites');
+
+            if (currentNumber && requisites[currentNumber]) {
+                if (requisitesDiv.style.display === 'none') {
+                    requisitesDiv.style.display = 'block';
+                    requisitesDiv.innerText = requisites[currentNumber];
+                } else {
+                    requisitesDiv.style.display = 'none';
+                }
+            } else {
+                alert('Сначала сгенерируйте номер!');
+            }
+        }
+
+        let isFullListVisible = false; // Переменная для отслеживания видимости полного списка
+
+function toggleFullList() {
+    const fullListDiv = document.getElementById('fullList');
+
+    if (isFullListVisible) {
+        fullListDiv.style.display = 'none';
+        isFullListVisible = false;
+    } else {
+        fullListDiv.style.display = 'block';
+        isFullListVisible = true;
+        
+        // Получаем ключи и сортируем их
+        const sortedKeys = Object.keys(requisites).sort();
+        
+        fullListDiv.innerHTML = '<h3>Весь список реквизитов:</h3><ul>' +
+            sortedKeys.map(key => `<li>${key}: ${requisites[key]}</li>`).join('') +
+            '</ul>';
+    }
+}
+
+
+    </script>
+</body>
+</html>
